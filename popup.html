@@ -13,22 +13,32 @@
       font-size: 24px;
       margin-bottom: 20px;
     }
-    button {
-      padding: 10px 20px;
-      background-color: #f0da10;
-      color: white;
-      font-size: 16px;
+    #settleButton {
+      padding: 20px;
+      background-color: transparent;
       border: none;
       cursor: pointer;
-      border-radius: 4px;
+      background-image: url('https://camo.githubusercontent.com/a5a66748c36989215c0dbc4c366178f5f3662e7fc659f5b7630452b2a4f4b9c4/68747470733a2f2f7777772e736574746c652e7774662f696d616765732f6f672e706e67');
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      width: 200px;
+      height: 200px;
+      transition: transform 0.2s ease-in-out;
     }
-    button:hover {
-      background-color: #0da6ff;
+    #settleButton:hover {
+      transform: scale(1.1);
+    }
+    #clickMessage {
+      color: white;
+      font-size: 18px;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <button id="settleButton">Settle!</button>
+  <button id="settleButton"></button>
+  <p id="clickMessage">Click me 👆</p>
   
   <script src="popup.js"></script>
 </body>
