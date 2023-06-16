@@ -250,3 +250,5 @@ function handleSettleButtonClick() {
     settleButton.addEventListener("click", handleSettleButtonClick);
   });
   
+
+  // SETTINGS

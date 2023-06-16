@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Settle or Die",
-  "description": "Dont worry, Be Pepe",
-  "version": "1.3",
+  "description": "Settle Warning",
+  "version": "1.0",
   "permissions": [
     "webRequest"
   ],

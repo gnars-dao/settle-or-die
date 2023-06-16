@@ -26,21 +26,21 @@ function countdown(targetDate) {
 
 function checkSettle() {
   // NOUNS QUERY AND URL - Un/Comment to see
-  // const url = 'https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph';
-  // let query = `
-  // {
-  //   auctions(first: 1, orderBy: endTime, orderDirection: desc) {
-  //     settled
-  //     id
-  //     noun {
-  //       id
-  //     }
-  //     endTime
-  //   }
-  // }`;
+  const nouns_url = 'https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph';
+  let nouns_query = `
+  {
+    auctions(first: 1, orderBy: endTime, orderDirection: desc) {
+      settled
+      id
+      noun {
+        id
+      }
+      endTime
+    }
+  }`;
 
   // GNARS QUERY AND URL - Un/Comment to see
-  const url = 'https://api.thegraph.com/subgraphs/name/gnarsdao/gnars';
+  const url= 'https://api.thegraph.com/subgraphs/name/gnarsdao/gnars';
   let query = `
   {
     auctions(first: 1, orderBy: endTime, orderDirection: desc) {
