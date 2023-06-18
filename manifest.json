@@ -4,7 +4,6 @@
   "description": "Settle Warning",
   "version": "1.0",
   "permissions": [
-    "webRequest"
   ],
   "host_permissions": [
     "*://*.thegraph.com/"
