@@ -1,6 +1,7 @@
 # Settle or Die 
 
-Browser plugin to help you to keep track of Gnars.wtf auctions 
+Browser plugin with an auction countdown to help you to keep track of 
+Gnars.wtf auctions, beware the snippers!
 
 ![](https://www.settle.wtf/images/og.png)
 

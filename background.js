@@ -1,3 +1,5 @@
+import "./frames.js";   // kickflip animation easteregg
+
 let auctionEnded = false;
 let auctionEndTime = new Date();
 
@@ -25,69 +27,82 @@ function countdown(targetDate) {
 }
 
 function checkSettle() {
-  // NOUNS QUERY AND URL - Un/Comment to see
-  const nouns_url = 'https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph';
-  let nouns_query = `
-  {
-    auctions(first: 1, orderBy: endTime, orderDirection: desc) {
-      settled
-      id
-      noun {
-        id
-      }
-      endTime
+  // Check the state of the toggle switch
+  chrome.storage.sync.get("toggleState", function (data) {
+    const isChecked = data.toggleState;
+    let query;
+    let url;
+
+    if (isChecked) {
+      // Nouns position - Use NOUNS query and URL
+      url = "https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph";
+      query = `
+        {
+          auctions(first: 1, orderBy: endTime, orderDirection: desc) {
+            settled
+            id
+            noun {
+              id
+            }
+            endTime
+          }
+        }
+      `;
+    } else {
+      // Gnars position - Use GNARS query and URL
+      url = "https://api.thegraph.com/subgraphs/name/gnarsdao/gnars";
+      query = `
+        {
+          auctions(first: 1, orderBy: endTime, orderDirection: desc) {
+            settled
+            id
+            gnar {
+              id
+            }
+            endTime
+          }
+        }
+      `;
     }
-  }`;
 
-  // GNARS QUERY AND URL - Un/Comment to see
-  const url= 'https://api.thegraph.com/subgraphs/name/gnarsdao/gnars';
-  let query = `
-  {
-    auctions(first: 1, orderBy: endTime, orderDirection: desc) {
-      settled
-      id
-      gnar {
-        id
-      }
-      endTime
-    }
-  }`;
+    // Request options
+    let options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: query,
+      }),
+    };
 
-  // Request options
-  let options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: query
-    }),
-  };
+    // Send the request
+    fetch(url, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => data.data.auctions[0])
+      .then((auction) => {
+        const { endTime } = auction;
+        const now = new Date();
+        const lastAuctionDate = new Date(Number(`${endTime}000`));
+        auctionEnded = now > lastAuctionDate;
+        auctionEndTime = lastAuctionDate;
 
-  // Send the request
-  fetch(url, options)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => data.data.auctions[0])
-    .then(auction => {
-      const { endTime } = auction;
-      const now = new Date();
-      const lastAuctionDate = new Date(Number(`${endTime}000`));
-      auctionEnded = now > lastAuctionDate;
-      auctionEndTime = lastAuctionDate;
+        if (auctionEnded) {
+          chrome.action.setBadgeText({ text: "Settle" });
+          return;
+        }
 
-      if (auctionEnded) {
-        chrome.action.setBadgeText({ text: `Settle` });
-        return;
-      }
-
-      countdown(auctionEndTime);
-    })
-    .catch(error => console.log('There has been a problem with your fetch operation: ', error));
+        countdown(auctionEndTime);
+      })
+      .catch((error) =>
+        console.log("There has been a problem with your fetch operation: ", error)
+      );
+  });
 }
 
 checkSettle();

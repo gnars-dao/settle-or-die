@@ -3,8 +3,7 @@
   "name": "Settle or Die",
   "description": "Settle Warning",
   "version": "1.0",
-  "permissions": [
-  ],
+  "permissions": ["storage"],
   "host_permissions": [
     "*://*.thegraph.com/"
   ],
@@ -16,7 +15,8 @@
     }
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "icons": {
     "16": "images/icon16.png",

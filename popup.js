@@ -1,254 +1,64 @@
-/* eslint-disable no-useless-escape */
-
-const frames = [
-    `         discord.gg/skatehive
-    +------------------------------------+
-    |        |                      \\    |
-    |        |      _                \\   |
-    |         '.   | |                 |  |
-    |          |   //                  |  |
-    |          |  |/                   \\ |
-    |          |  /                |\\  | |
-    |          | |                 | |  | |
-    |          | |                .  |  | |
-    |          ; |       .'|     <   |  \\|
-    |         /  |     .-  '-\\    \\\\__/|
-    |        |   |     |      \\    :     |
-    |         \\_/ \\    |     \\   |     |
-    |              :   |        \\  |     |
-    |              |   |        |   \\    |
-    |             _|   \\        |    .   |
-    |           .'      ;        \\    )  |
-    |'8\\________|______/__________\\_.:P'|
-    |  'Y8888888888888888888888888888P'   |
-    |        (_)               (_)lka     |
-    +------------------------------------+`,
-    `             SKATEHIVE
-    +------------------------------------+
-    |              /                 |   |
-    |             /                  |   |
-    |            /                   |   |
-    |           |                    |   |
-    |           |          .'        |   |
-    |           |        .'  |       |   |
-    |           \      .'     \      |   |
-    |            |     |       \     |   |
-    |            |    /         ;    |   |
-    |            |   |          |   /    |
-    |            |   |          |   |    |
-    |            |   |          \   |    |
-    |            |   :           |  |    |
-    |            /    \          |  |    |
-    | _         /     .>         |   \   |
-    | "88b.__  |____.'           \   |   |
-    |   Y88888888888Oooooo._      \__| _ |
-    |       (_)    'Y888888888888888888P'|
-    |                         (_)lka     |
-    +------------------------------------+`,
-    `        discord.gg/skatehive
-    +------------------------------------+
-    |  \                          |      |
-    |   \         _.' \           |      |
-    |    \     .-'      \         |      |
-    |     \   |           \       |      |
-    |      \   \            \     |      |
-    |       \  |             \     \     |
-    |        :  \             |     \    |
-    |        \   \__          |     |    |
-    |       88b     /          \    |    |
-    |        Y8b   |           |     \   |
-    |         '8b  |            \    |   |
-    |          _'8b|             |   |   |
-    |         (_) '8b            |   |   |
-    |               '8b          |   |   |
-    |                 '8b        |   |   |
-    |                   '8b     /    |   |
-    |                     '8b   |    |   |
-    |                       _8b |    /   |
-    |                      (_)Y8ooooP    |
-    |                        lka         |
-    +------------------------------------+`,
-    `             SKATEHIVE
-    +------------------------------------+
-    |\   |              '.     |         |
-    | \   \               \    |         |
-    |  \   \               \    \        |
-    |  |    '.              \    |       |
-    |  <     /               \   |       |
-    |   \ .'/_               |    \      |
-    |    |8888b.              \   |      |
-    |    Y888888b.             \  |      |
-    |     Y8888(_)b.           |  |      |
-    |       Y8//88888b.         |   \    |
-    |       (_)Y888888b.        >   |    |
-    |           'Y ⌐◨-◨ 8b.    |    |    |
-    |             'Y888888b.   |    |    |
-    |               'Y888888b. |    /    |
-    |                 'Y888(_)b.   /     |
-    |                   'Y//8888b.       |
-    |                   (_)Y888888)      |
-    |                        """""lka    |
-    |                                    |
-    +------------------------------------+`,
-    `        discord.gg/skatehive
-    +------------------------------------+
-    |     _\  \                 |     |  |
-    |    /     \                |     |  |
-    |   /    .'                 \     |  |
-    |  /   .' __                 \    |  |
-    |  \_.' .d88b._               \   |  |
-    |      888888(_)              /   |  |
-    |       Y8888//88b.           |   \  |
-    |        Y88//888888b.         \   \ |
-    |         (_)8888888888b.       \   ||
-    |            'Y888 ⌐◨-◨ 88b. _   \  ||
-    |               'Y8888888888(_)   "" |
-    |                  'Y8888888//8b.    |
-    |                     'Y888//8888\   |
-    |                        (_)888888)  |
-    |                          'Y888P'   |
-    |                            lka     |
-    |                                    |
-    |                                    |
-    |                                    |
-    +------------------------------------+`,
-    `             SKATEHIVE
-    +------------------------------------+
-    |/""      |                  |  |    |
-    |\___..--'                   |   \   |
-    |                            |    \  |
-    |                             \    . |
-    |                              '-..' |
-    |             __                     |
-    |      ____  (_))                    |
-    |      Y8888888b.                    |
-    |              Y88b.                 |
-    |                 'Y8b._    __       |
-    |                    'Y8b._(_))      |
-    |                        Y888b.      |
-    |                           'Y8b.    |
-    |                          lka'Y8b.  |
-    |                                    |
-    |                                    |
-    |                                    |
-    |                                    |
-    |                                    |
-    +------------------------------------+`,
-    `        discord.gg/skatehive
-    +------------------------------------+
-    |    \   |            \   |          |
-    |    |   |             \  |          |
-    |    /    \            |  |          |
-    |  _/      \           |   \         |
-    | |   ___..'           |   |         |
-    |  """                 |   |         |
-    |   ..ooooo...          """"         |
-    |  d888888888888888oooo....          |
-    |  888888888888 ⌐◨-◨ 8888888888b.    |
-    |  'Y8888888888888888888888888888|   |
-    |          """"""8888888888888888;   |
-    |                    '''8888888P'    |
-    |                         lka        |
-    |                                    |
-    |                                    |
-    |                                    |
-    |                                    |
-    |                                    |
-    |                                    |
-    +------------------------------------+`,
-    `               ⌐◨-◨
-    +------------------------------------+
-    |     \    (         \     |  |      |
-    |      \    \         \    /  |      |
-    |       \   |         '   |   |      |
-    |       |   |          \  :___;      |
-    |       |   |           \   |        |
-    |       |   |           |   |        |
-    |       ;    \          |   |        |
-    |     .'     |          |   |        |
-    |   .(___..--'___________\   \__.8|  |
-    |   'Y8888888888888888888b.__'88P'   |
-    |        (_)-'            (_)-lka    |
-    |                                    |
-    |                                    |
-    |                                    |
-    |                                    |
-    |                                    |
-    |                                    |
-    |                                    |
-    |                                    |
-    +------------------------------------+`,
-    `              SKATEHIVE
-    +------------------------------------+
-    |        /          .'  .' |         |
-    |       /        .'.  .'   |         |
-    |      |       .'.'  /    /          |
-    |      \      /.'   /    |           |
-    |      |     / |   /\    |           |
-    |      |    /  |  /  \   |           |
-    |       \   |   '"    \   \          |
-    |       |   |         |    |         |
-    |        \  |          \   |         |
-    |        |  |           \  |         |
-    |        |  \           |  |         |
-    |        /   .           \  \        |
-    |       /    .           |   \       |
-    |   .--|___.'            |    \      |
-    |    'Y8888888888oooooooo:____:__..  |
-    |      '"(_)"""""""''Y888888888888/  |
-    |                         (_)        |
-    |                                    |
-    |                                    |
-    +------------------------------------+`,
-    `               ⌐◨-◨
-    +------------------------------------+
-    |         |      _.'  /   |          |
-    |         |   _.' _.'    /           |
-    |         /_.' _.'      |            |
-    |       .''  .'         |            |
-    |      /   .'    _      |            |
-    |     |_.-'    .' \     |            |
-    |     |       /   /     |            |
-    |     |      '    \     |            |
-    |      \     |     \    |            |
-    |       \    |      |   |            |
-    |       |    |      |   |            |
-    |        \   |      |   :            |
-    |        |   |       \   \           |
-    |        |   |        \   :          |
-    |        /   |         \  |          |
-    |   __  /    |          \  \         |
-    |  8888<____.'888ooo..._|   \__oo.   |
-    |    "Y88888888888888888b___d88P'    |
-    |       (_)          """ (_)         |
-    +------------------------------------+`]
-  
-  
-  
-  function animateFrames(frames) {
-    let index = 0;
-  
-    const intervalId = setInterval(() => {
-      console.clear();
-      console.log(frames[index]);
-      index = (index + 1) % frames.length;
-    }, 500);
-  }
-  
 // Perform an action when the Settle button is clicked
 function handleSettleButtonClick() {
-    // Open "https://www.settle.wtf" in a new tab
-    window.open("https://www.settle.wtf", "_blank");
-  }
-  
-  // Start the frames animation
-  animateFrames(frames);
-  
-  // Attach event listener to the Settle button
-  document.addEventListener("DOMContentLoaded", function() {
-    const settleButton = document.getElementById("settleButton");
-    settleButton.addEventListener("click", handleSettleButtonClick);
-  });
-  
+  // Open "https://www.settle.wtf" in a new tab
+  window.open("https://www.settle.wtf", "_blank");
+}
 
-  // SETTINGS
+// Handle toggle switch change event
+function handleToggleSwitchChange() {
+  const toggleSwitch = document.getElementById("querySwitch");
+  const toggleLabels = document.getElementsByClassName("toggle-labels")[0];
+  const isChecked = toggleSwitch.checked;
+
+  if (isChecked) {
+    // Toggle switch is checked (position = Nouns)
+    console.log("Toggle switch is in the Nouns position");
+    // Add the custom CSS class for the "nouns" position
+    toggleLabels.classList.add("nouns");
+  } else {
+    // Toggle switch is not checked (position = Gnars)
+    console.log("Toggle switch is in the Gnars position");
+    // Remove the custom CSS class for the "nouns" position
+    toggleLabels.classList.remove("nouns");
+  }
+
+  // Retrieve the last saved toggle switch state from chrome.storage
+  chrome.storage.sync.get("toggleState", function (data) {
+    const lastToggleState = data.toggleState;
+
+    // Compare the last toggle state with the current state
+    if (lastToggleState !== isChecked) {
+      // Save the new toggle switch state to chrome.storage
+      chrome.storage.sync.set({ toggleState: isChecked }, function () {
+        // Reload the extension's background page
+        chrome.runtime.reload();
+      });
+    }
+  });
+}
+
+// Restore the toggle switch state from chrome.storage
+function restoreToggleSwitchState() {
+  const toggleSwitch = document.getElementById("querySwitch");
+
+  // Retrieve the toggle switch state from chrome.storage
+  chrome.storage.sync.get("toggleState", function (data) {
+    const isChecked = data.toggleState;
+    toggleSwitch.checked = isChecked;
+
+    // Trigger the change event to update the UI
+    toggleSwitch.dispatchEvent(new Event("change"));
+  });
+}
+
+// Attach event listeners
+document.addEventListener("DOMContentLoaded", function () {
+  const settleButton = document.getElementById("settleButton");
+  const toggleSwitch = document.getElementById("querySwitch");
+
+  settleButton.addEventListener("click", handleSettleButtonClick);
+  toggleSwitch.addEventListener("change", handleToggleSwitchChange);
+
+  // Restore the toggle switch state when the popup is opened
+  restoreToggleSwitchState();
+});
