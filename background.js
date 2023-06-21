@@ -4,27 +4,43 @@ let auctionEnded = false;
 let auctionEndTime = new Date();
 
 function countdown(targetDate) {
-  const now = new Date();
-  let diff = targetDate.getTime() - now.getTime();
+  let intervalId; // Define the intervalId variable
 
-  // Ensure that the target date is in the future
-  if (diff < 0) {
-    return "00:00";
-  }
+  const updateBadge = () => {
+    const now = new Date();
+    let diff = targetDate.getTime() - now.getTime();
 
-  let hours = Math.floor(diff / (1000 * 60 * 60));
-  diff -= hours * (1000 * 60 * 60);
-  let mins = Math.floor(diff / (1000 * 60));
+    // Ensure that the target date is in the future
+    if (diff < 0) {
+      clearInterval(intervalId);
+      chrome.action.setBadgeText({ text: "00:00" });
+      return;
+    }
 
-  hours = hours < 10 ? "0" + hours : hours;
-  mins = mins < 10 ? "0" + mins : mins;
-  const countdownTime = hours + ":" + mins;
+    let hours = Math.floor(diff / (1000 * 60 * 60));
+    diff -= hours * (1000 * 60 * 60);
+    let mins = Math.floor(diff / (1000 * 60));
+    let secs = Math.floor(((diff / 1000)+1) % 60);
 
-  // Update Chrome badge text
-  chrome.action.setBadgeText({ text: countdownTime });
+    hours = hours < 10 ? "0" + hours : hours;
+    mins = mins < 10 ? "0" + mins : mins;
+    secs = secs < 10 ? "0" + secs : secs;
 
-  return countdownTime;
+    const countdownTime = hours > 0 ? hours + ":" + mins : mins + ":" + secs;
+
+    // Update Chrome badge text
+    chrome.action.setBadgeText({ text: countdownTime });
+  };
+
+  // Initial update
+  updateBadge();
+
+  // Update the badge every second
+  intervalId = setInterval(updateBadge, 1000);
 }
+
+
+
 
 function checkSettle() {
   // Check the state of the toggle switch
@@ -94,6 +110,8 @@ function checkSettle() {
 
         if (auctionEnded) {
           chrome.action.setBadgeText({ text: "Settle" });
+              chrome.action.setBadgeBackgroundColor({ color: [255, 0, 0, 255] })
+
           return;
         }
 
@@ -106,5 +124,5 @@ function checkSettle() {
 }
 
 checkSettle();
-setInterval(checkSettle, 1000 * 30); // Check every 30 seconds
+setInterval(checkSettle, 100); // Check every 30 seconds
 setInterval(() => countdown(auctionEndTime), 1000); // Update countdown every second
