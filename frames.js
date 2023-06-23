@@ -236,4 +236,4 @@ function animateFrames(frames) {
 }
 
   // Start the frames animation
- //animateFrames(frames);
+animateFrames(frames);

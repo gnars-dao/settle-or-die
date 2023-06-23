@@ -1,7 +1,36 @@
-import "./frames.js";   // kickflip animation easteregg
+import "./frames.js";
 
 let auctionEnded = false;
 let auctionEndTime = new Date();
+let blinkIntervalId;  // Define the blinkIntervalId variable
+
+function startBlinking() {
+  // Clear existing blinking if any
+  if (blinkIntervalId) {
+    clearInterval(blinkIntervalId);
+  }
+
+  // Set badge text to 'Settle'
+  chrome.action.setBadgeText({ text: "Settle" });
+  chrome.action.setBadgeBackgroundColor({ color: [255, 0, 0, 255] });
+
+  let blinkState = false;
+
+  blinkIntervalId = setInterval(() => {
+    chrome.action.setBadgeText({ text: blinkState ? "Settle" : "" });
+    blinkState = !blinkState;
+  }, 500);
+}
+
+function stopBlinking() {
+  // Clear blinking
+  if (blinkIntervalId) {
+    clearInterval(blinkIntervalId);
+    blinkIntervalId = null;
+  }
+  // Clear badge text
+  chrome.action.setBadgeText({ text: "" });
+}
 
 function countdown(targetDate) {
   let intervalId; // Define the intervalId variable
@@ -13,14 +42,14 @@ function countdown(targetDate) {
     // Ensure that the target date is in the future
     if (diff < 0) {
       clearInterval(intervalId);
-      chrome.action.setBadgeText({ text: "00:00" });
+      chrome.action.setBadgeText({ text: "waxxing" });
       return;
     }
 
     let hours = Math.floor(diff / (1000 * 60 * 60));
     diff -= hours * (1000 * 60 * 60);
     let mins = Math.floor(diff / (1000 * 60));
-    let secs = Math.floor(((diff / 1000)+1) % 60);
+    let secs = Math.floor(((diff / 1000) + 1) % 60);
 
     hours = hours < 10 ? "0" + hours : hours;
     mins = mins < 10 ? "0" + mins : mins;
@@ -39,10 +68,17 @@ function countdown(targetDate) {
   intervalId = setInterval(updateBadge, 1000);
 }
 
+function performCountdown(countdownTime) {
+  // Perform actions based on the countdown time
+  // ...
 
+  // Example: Show alert when countdown reaches 2 minutes
+  if (countdownTime === "02:00") {
+    console.log("Auction has 2 minutes left!");
+  }
+}
 
-
-function checkSettle() {
+function fetchCountdownTime() {
   // Check the state of the toggle switch
   chrome.storage.sync.get("toggleState", function (data) {
     const isChecked = data.toggleState;
@@ -109,20 +145,37 @@ function checkSettle() {
         auctionEndTime = lastAuctionDate;
 
         if (auctionEnded) {
-          chrome.action.setBadgeText({ text: "Settle" });
-              chrome.action.setBadgeBackgroundColor({ color: [255, 0, 0, 255] })
-
+          startBlinking();
           return;
         }
 
+        stopBlinking();
         countdown(auctionEndTime);
+        performCountdown(auctionEndTime);
       })
-      .catch((error) =>
-        console.log("There has been a problem with your fetch operation: ", error)
-      );
+      .catch((error) => {
+        console.error("There has been a problem with your fetch operation:", error);
+      });
   });
 }
 
-checkSettle();
-setInterval(checkSettle, 100); // Check every 30 seconds
-setInterval(() => countdown(auctionEndTime), 1000); // Update countdown every second
+function registerServiceWorker() {
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("background.js")
+      .then(() => {
+        console.log("Service worker registered successfully");
+        fetchCountdownTime();
+      })
+      .catch((error) => {
+        console.error("Error registering service worker:", error);
+      });
+  }
+}
+
+// Register service worker on browser startup
+chrome.runtime.onStartup.addListener(registerServiceWorker);
+
+// Call fetchCountdownTime initially and at intervals of 30 seconds
+fetchCountdownTime();
+setInterval(fetchCountdownTime, 30000);

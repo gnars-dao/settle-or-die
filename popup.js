@@ -1,6 +1,5 @@
 // Perform an action when the Settle button is clicked
 function handleSettleButtonClick() {
-  // Open "https://www.settle.wtf" in a new tab
   window.open("https://www.settle.wtf", "_blank");
 }
 
